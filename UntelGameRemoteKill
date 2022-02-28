@@ -1,0 +1,64 @@
+local Targets = gplr("all") -- 지금은 all 작동안됨
+
+function gplr(String)
+ local Found = {}
+ local strl = String:lower()
+ local lp = game.Players.LocalPlayer
+ if strl == "all" then
+  for i,v in pairs(game:FindService("Players"):GetPlayers()) do
+   table.insert(Found,v)
+  end
+ elseif strl == "others" then
+  for i,v in pairs(game:FindService("Players"):GetPlayers()) do
+   if v.Name ~= lp.Name then
+    table.insert(Found,v)
+   end
+  end
+ elseif strl == "me" then
+  for i,v in pairs(game:FindService("Players"):GetPlayers()) do
+   if v.Name == lp.Name then
+    table.insert(Found,v)
+   end
+  end
+ else
+  for i,v in pairs(game:FindService("Players"):GetPlayers()) do
+   if v.Name:lower():sub(1, #String) == String:lower() then
+    table.insert(Found,v)
+   end
+  end
+ end
+ return Found
+end
+
+local Remote = {}
+
+print("총 리모트 수 : " .. #Remote)
+
+for _, v in pairs(game.workspace:GetDescendants()) do
+    if v:IsA("Tool") then
+        if v.Name == "P1" then
+            table.insert(Remote,#Remote+1,v:FindFirstChildOfClass("Remote")
+        end
+    end
+end
+for _, v in pairs(game.Players:GetDescendants()) do
+    if v:IsA("Tool") then
+        if v.Name == "P1" then
+            table.insert(Remote,#Remote+1,v:FindFirstChildOfClass("Remote")
+        end
+    end
+end
+
+if Remote[1] then
+    local i = 1
+    for _, plr in pairs(Targets) do
+        local Target = plr
+        if Target and Target.Character then
+            if Target.Character.Humanoid.Health > 0 and Remote[i] then
+                print("KillPlayer:" .. Target.DisplayName .. "(@" .. Target.Name ..  ")")
+                Remote[i]:FireServer(Target.Character.Humanoid)
+                i += 1
+            end
+        end
+    end
+end
