@@ -1,0 +1,54 @@
+local GetP1 = true
+local Scriptsize = CFrame.new(0,0,0)
+local Scriptcf = Vector3.new(1,1,1)
+
+local GetPart = nil
+for _, v in pairs(game.Workspace:GetChildren()) do
+				if v:IsA("BasePart") then
+					if v:FindFirstChildOfClass("MeshPart") then
+						if v:FindFirstChildOfClass("MeshPart").MeshId == "rbxassetid://5049754335" then
+							if v:FindFirstChildOfClass("Script") then
+								GetPart = v
+							end
+						end
+					end
+				end
+			end
+end
+
+if GetPart ~= nil then
+	local Scriptsize = GetPart.Size
+	local Scriptcf = GetPart.CFrame
+	spawn(function()
+		while GetP1 do
+			if GetPart:FindFirstChildOfClass("MeshPart").Transparency == 0 then
+				GetPart.Anchored = true
+				GetPart.CanCollide = false
+				GetPart.Transparency = 1
+				GetPart.Size = Vector3.new(10,10,10)
+				pcall(function()
+					NoScript.CFrame = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame
+				end)
+			else
+				GetPart.Anchored = true
+				GetPart.CanCollide = false
+				GetPart.Transparency = 0.5
+				GetPart.Size = NoScriptsize
+				GetPart.CFrame = NoScriptcf
+			end
+		end
+	end)
+end
+
+game.Players.LocalPlayer:GetMouse().KeyDown:Connect(function(key)
+	if GetP1 == true then
+		if key == ";" then
+			GetP1 = false
+			GetPart.Anchored = true
+			GetPart.CanCollide = false
+			GetPart.Transparency = 1
+			GetPart.Size = NoScriptsize
+			GetPart.CFrame = NoScriptcf
+		end
+	end
+end
